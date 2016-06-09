@@ -1,0 +1,38 @@
+#######################################
+# Syntax Coloring Map for LCDMenu
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+LCDMenu	KEYWORD1
+ChildMenu	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+#Menu Functions
+
+#LCDMenu Functions
+up	KEYWORD2
+down	KEYWORD2
+select	KEYWORD2
+back	KEYWORD2
+on	KEYWORD2
+off	KEYWORD2
+reset	KEYWORD2
+isOn	KEYWORD2
+
+#SubMenu Functions
+addItem	KEYWORD2
+getChildren	KEYWORD2
+getChildByName	KEYWORD2
+getChildByLocation	KEYWORD2
+getSize	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+

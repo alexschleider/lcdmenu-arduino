@@ -1,0 +1,94 @@
+/*############################################*/
+/*######## MenuItem Array Definitions ########*/
+/*############################################*/
+
+//Public
+
+template <class ArrTemplate>
+MenuItemArray<ArrTemplate>::MenuItemArray() {
+	len = 0;
+	items = NULL;
+}
+
+template <class ArrTemplate>
+MenuItemArray<ArrTemplate>::~MenuItemArray() {
+	for(int i=0; i<len; i++) {
+		delete items[i];	
+	}
+	delete items;
+}
+
+template <class ArrTemplate>
+ArrTemplate* MenuItemArray<ArrTemplate>::add(ArrTemplate* m) {
+	resize(len+1);
+	items[len-1] = m;
+	return m;
+}
+
+template <class ArrTemplate>
+int MenuItemArray<ArrTemplate>::size() {
+	return len;
+}
+
+template <class ArrTemplate>
+ArrTemplate* MenuItemArray<ArrTemplate>::get(int i) {
+	return items[i];	
+}
+
+//Private
+
+template <class ArrTemplate>
+void MenuItemArray<ArrTemplate>::resize(int numrows) {
+	if(numrows == 0) {
+		free(items);
+		items = NULL;
+	} else if(numrows > 0) {
+		ArrTemplate **data;
+		data = (ArrTemplate**) malloc(numrows * sizeof(ArrTemplate*));
+		for(int i=0; i<numrows; i++) {
+			if(i < len) {
+				data[i] = items[i];
+			}
+		}
+		len = numrows;
+		free(items);
+		items = data;
+	}
+}
+
+/*############################################*/
+/*######### LCD Sub Menu Definitions #########*/
+/*############################################*/
+
+
+template <class T>
+OptionsMenu* SubMenu::addOptionsMenu(char *n, T &s) {
+	menuItems.add(new OptionsMenu(n, this, s));
+	return (OptionsMenu*)(menuItems.get(menuItems.size() - 1));
+}
+
+/*############################################*/
+/*####### LCD Options Menu Definitions #######*/
+/*############################################*/
+
+template <class T>
+OptionsMenu::OptionsMenu(char *n, MenuItem *p, T &s) : MenuItem(n, p) {
+	setting = new Setting(s);
+	options = MenuItemArray<Option>();
+	type = OPT;
+	selected = -1;
+}
+
+template <class T>
+void OptionsMenu::addOption(char* n, T v)
+{
+	if(selected == -1) {
+		if(setting->valueEquals(v)) selected = size();
+	}
+	Option* info = options.add(new Option);
+	info->name = n;
+	//T *t = new T;
+	//T t = static_cast<T>(v);
+	info->setValue(v);
+	info->oid = size() - 1;
+}
